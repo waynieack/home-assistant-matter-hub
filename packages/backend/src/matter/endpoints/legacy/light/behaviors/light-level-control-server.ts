@@ -13,7 +13,8 @@ const config: LevelControlConfig = {
     if (brightness != null) {
       return brightness / 255;
     }
-    return null;
+    // Default to 0 (off) when brightness is null to avoid Alexa compatibility issues
+    return 0;
   },
   moveToLevelPercent: (brightnessPercent) => ({
     action: "light.turn_on",
