@@ -149,11 +149,17 @@ echo ""
 
 # Step 5: Test image (quick sanity check)
 echo -e "${BLUE}🧪 Step 3: Testing image...${NC}"
-docker run --rm "$IMAGE_TAG" --help > /dev/null && \
-  echo -e "${GREEN}✅ Image runs successfully${NC}" || {
-  echo -e "${RED}❌ Image test failed${NC}"
-  exit 1
-}
+
+# Skip test for addon builds (they expect HA environment)
+if [[ "$DOCKERFILE" == "addon" ]]; then
+  echo -e "${YELLOW}⚠️  Skipping test for addon build (requires Home Assistant environment)${NC}"
+else
+  docker run --rm "$IMAGE_TAG" --help > /dev/null && \
+    echo -e "${GREEN}✅ Image runs successfully${NC}" || {
+    echo -e "${RED}❌ Image test failed${NC}"
+    exit 1
+  }
+fi
 echo ""
 
 # Step 6: Push if requested

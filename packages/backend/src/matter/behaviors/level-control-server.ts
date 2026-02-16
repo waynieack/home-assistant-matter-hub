@@ -30,24 +30,20 @@ export class LevelControlServerBase extends FeaturedBase {
     const maxLevel = 0xfe;
     const levelRange = maxLevel - minLevel;
 
-    const currentLevelPercent =
-      config.getValuePercent(state, this.agent) ??
-      this.state.currentLevelPercent;
-    let currentLevel =
-      currentLevelPercent != null
-        ? currentLevelPercent * levelRange + minLevel
-        : null;
+    const actualLevelPercent = config.getValuePercent(state, this.agent);
+    // Use actual value, or fallback to min (0%) to match currentLevel fallback to minLevel
+    const currentLevelPercent = actualLevelPercent ?? 0;
+    const currentLevel = currentLevelPercent * levelRange + minLevel;
 
-    if (currentLevel != null) {
-      currentLevel = Math.min(Math.max(minLevel, currentLevel), maxLevel);
-    }
+    // Clamp to valid range
+    const clampedLevel = Math.min(Math.max(minLevel, currentLevel), maxLevel);
 
     applyPatchState(this.state, {
       minLevel: minLevel,
       maxLevel: maxLevel,
-      currentLevel: currentLevel ?? minLevel,
+      currentLevel: clampedLevel,
       currentLevelPercent: currentLevelPercent,
-      onLevel: currentLevel ?? this.state.onLevel ?? maxLevel,
+      onLevel: actualLevelPercent != null ? clampedLevel : (this.state.onLevel ?? maxLevel),
     });
   }
 
