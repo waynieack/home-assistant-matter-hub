@@ -33,7 +33,7 @@ export class LevelControlServerBase extends FeaturedBase {
     const actualLevelPercent = config.getValuePercent(state, this.agent);
     // Use actual value, or fallback to min (0%) to match currentLevel fallback to minLevel
     const currentLevelPercent = actualLevelPercent ?? 0;
-    const currentLevel = currentLevelPercent * levelRange + minLevel;
+    const currentLevel = Math.round(currentLevelPercent * levelRange + minLevel);
 
     // Clamp to valid range
     const clampedLevel = Math.min(Math.max(minLevel, currentLevel), maxLevel);
