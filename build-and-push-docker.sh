@@ -171,17 +171,6 @@ if [[ "$ACTION" == "push" ]]; then
     echo -e "${BLUE}🚀 Step 4: Pushing to registry...${NC}"
     echo "   Registry: $REGISTRY"
     
-    # Check if logged in
-    if ! docker info | grep -q "Username:"; then
-      echo -e "${YELLOW}⚠️  Not logged into Docker registry${NC}"
-      if [[ "$REGISTRY" == "ghcr.io"* ]]; then
-        echo "    Login with: docker login ghcr.io"
-      else
-        echo "    Login with: docker login"
-      fi
-      exit 1
-    fi
-    
     echo "   Pushing $IMAGE_TAG..."
     docker push "$IMAGE_TAG" || {
       echo -e "${RED}❌ Failed to push image${NC}"
