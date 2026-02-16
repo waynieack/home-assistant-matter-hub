@@ -7,5 +7,8 @@ export const LightOnOffServer = OnOffServer({
   turnOff: () => ({
     action: "light.turn_off",
   }),
-  isOn: (e) => e.state === "on",
-}).with("Lighting");
+  isOn: (e) => {
+    const isOn = e.state === "on";
+    console.log(`[LightOnOff] isOn: state=${e.state} → ${isOn}`);
+    return isOn;
+  },

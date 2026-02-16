@@ -10,11 +10,15 @@ import {
 const config: LevelControlConfig = {
   getValuePercent: (state: HomeAssistantEntityState<LightDeviceAttributes>) => {
     const brightness = state.attributes.brightness;
+    let result: number;
     if (brightness != null) {
-      return brightness / 255;
+      result = brightness / 255;
+    } else {
+      // Default to 0 (off) when brightness is null to avoid Alexa compatibility issues
+      result = 0;
     }
-    // Default to 0 (off) when brightness is null to avoid Alexa compatibility issues
-    return 0;
+    console.log(`[LightLevelControl] getValuePercent: brightness=${brightness} → ${(result * 100).toFixed(1)}%`);
+    return result;
   },
   moveToLevelPercent: (brightnessPercent) => ({
     action: "light.turn_on",

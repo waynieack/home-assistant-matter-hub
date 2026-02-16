@@ -193,12 +193,9 @@ export class WindowCoveringServerBase extends FeaturedBase {
       this.agent,
     );
     const targetPosition = targetPercent100ths / 100;
-    console.log(`[WindowCovering] [COMMAND] handleGoToLiftPosition: Alexa sent=${targetPercent100ths/100}% (currentPosition=${currentPosition}%)`);
     if (targetPosition === currentPosition) {
-      console.log(`[WindowCovering]   → Skipping, already at target position`);
       return;
     }
-    console.log(`[WindowCovering]   → Calling setLiftPosition with ${targetPosition}`);
     homeAssistant.callAction(
       config.setLiftPosition(targetPosition, this.agent),
     );

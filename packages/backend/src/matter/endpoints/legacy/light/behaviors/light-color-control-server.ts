@@ -35,19 +35,40 @@ function getMatterColor(
 }
 
 const config: ColorControlConfig = {
-  getCurrentMode: (entity: HomeAssistantEntityState<LightDeviceAttributes>) =>
-    entity.attributes.color_mode === LightDeviceColorMode.COLOR_TEMP
+  getCurrentMode: (entity: HomeAssistantEntityState<LightDeviceAttributes>) => {
+    const mode = entity.attributes.color_mode === LightDeviceColorMode.COLOR_TEMP
       ? ColorControl.ColorMode.ColorTemperatureMireds
-      : ColorControl.ColorMode.CurrentHueAndCurrentSaturation,
-  getCurrentKelvin: (entity: HomeAssistantEntityState<LightDeviceAttributes>) =>
-    entity.attributes.color_temp_kelvin,
+      : ColorControl.ColorMode.CurrentHueAndCurrentSaturation;
+    console.log(`[LightColorControl] getCurrentMode: color_mode=${entity.attributes.color_mode} → ${mode}`);
+    return mode;
+  },
+  getCurrentKelvin: (entity: HomeAssistantEntityState<LightDeviceAttributes>) => {
+    // Return a sensible default (4000K is neutral white) if not available
+    const kelvin = entity.attributes.color_temp_kelvin ?? 4000;
+    console.log(`[LightColorControl] getCurrentKelvin: ${kelvin}`);
+    return kelvin;
+  },
   getMinColorTempKelvin: (
     entity: HomeAssistantEntityState<LightDeviceAttributes>,
-  ) => entity.attributes.min_color_temp_kelvin,
+  ) => {
+    // Default to 2700K (warm white) if not specified
+    const min = entity.attributes.min_color_temp_kelvin ?? 2700;
+    console.log(`[LightColorControl] getMinColorTempKelvin: ${min}`);
+    return min;
+  },
   getMaxColorTempKelvin: (
     entity: HomeAssistantEntityState<LightDeviceAttributes>,
-  ) => entity.attributes.max_color_temp_kelvin,
-  getColor: (entity) => getMatterColor(entity),
+  ) => {
+    // Default to 6500K (cool white) if not specified
+    const max = entity.attributes.max_color_temp_kelvin ?? 6500;
+    console.log(`[LightColorControl] getMaxColorTempKelvin: ${max}`);
+    return max;
+  },
+  getColor: (entity) => {
+    const color = getMatterColor(entity);
+    console.log(`[LightColorControl] getColor: ${color ? 'defined' : 'undefined'}`);
+    return color;
+  },
 
   setTemperature: (temperatureKelvin) => ({
     action: "light.turn_on",
