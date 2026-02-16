@@ -42,22 +42,19 @@ const config: ColorControlConfig = {
     return mode;
   },
   getCurrentKelvin: (entity: HomeAssistantEntityState<LightDeviceAttributes>) => {
-    // Return a sensible default (4000K is neutral white) if not available
-    const kelvin = entity.attributes.color_temp_kelvin ?? 4000;
+    const kelvin = entity.attributes.color_temp_kelvin;
     return kelvin;
   },
   getMinColorTempKelvin: (
     entity: HomeAssistantEntityState<LightDeviceAttributes>,
   ) => {
-    // Default to 2700K (warm white) if not specified
-    const min = entity.attributes.min_color_temp_kelvin ?? 2700;
+    const min = entity.attributes.min_color_temp_kelvin;
     return min;
   },
   getMaxColorTempKelvin: (
     entity: HomeAssistantEntityState<LightDeviceAttributes>,
   ) => {
-    // Default to 6500K (cool white) if not specified
-    const max = entity.attributes.max_color_temp_kelvin ?? 6500;
+    const max = entity.attributes.max_color_temp_kelvin;
     return max;
   },
   getColor: (entity) => {

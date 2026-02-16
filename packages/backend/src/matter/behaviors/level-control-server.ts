@@ -45,9 +45,9 @@ export class LevelControlServerBase extends FeaturedBase {
     applyPatchState(this.state, {
       minLevel: minLevel,
       maxLevel: maxLevel,
-      currentLevel: currentLevel,
+      currentLevel: currentLevel ?? minLevel,
       currentLevelPercent: currentLevelPercent,
-      onLevel: currentLevel ?? this.state.onLevel,
+      onLevel: currentLevel ?? this.state.onLevel ?? maxLevel,
     });
   }
 
