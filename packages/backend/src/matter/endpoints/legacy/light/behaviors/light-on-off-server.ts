@@ -1,9 +1,10 @@
 import { OnOffServer } from "../../../../behaviors/on-off-server.js";
+import { LevelControlServerBase } from "../../../../behaviors/level-control-server.js";
 
 export const LightOnOffServer = OnOffServer({
   turnOn: (entity, agent) => {
     // Get onLevel from LevelControl behavior if it exists
-    const levelControl = agent.get({ type: "levelControl" });
+    const levelControl = agent.get(LevelControlServerBase);
     const onLevel = levelControl?.state?.onLevel;
     
     // Convert Matter level (1-254) to HA brightness (0-255)
