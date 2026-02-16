@@ -9,6 +9,5 @@ export const LightOnOffServer = OnOffServer({
   }),
   isOn: (e) => {
     const isOn = e.state === "on";
-    console.log(`[LightOnOff] isOn: state=${e.state} → ${isOn}`);
     return isOn;
-  },
+  },}).with("Lighting");
