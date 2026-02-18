@@ -176,51 +176,11 @@ docker run -it --rm \
    docker stop hamh-test
    docker rm hamh-test
    ```
-
-### Verify the Light Level Fix
-
-Once the container is running and connected to Home Assistant:
-
-1. In Home Assistant, turn OFF a dimmable light
-2. Check the Matter device (in Alexa, Apple Home, etc.) - brightness should show **0%** not null
-3. Turn the light ON to a specific brightness level
-4. Verify it syncs correctly
-
 ---
 
 ## Step 4: Push Docker Image to Registry
 
-You have two main options for hosting Docker images:
-
-### Option A: Docker Hub (Recommended for Public Use)
-
-1. **Create Docker Hub Account**
-   - Go to https://hub.docker.com/
-   - Sign up (free account available)
-
-2. **Login to Docker Hub**
-   ```bash
-   docker login
-   # Enter username and password
-   ```
-
-3. **Tag Your Image**
-   ```bash
-   # Format: docker tag LOCAL_IMAGE:TAG USERNAME/REPO_NAME:TAG
-   docker tag home-assistant-matter-hub:0.1.0 waynebook/home-assistant-matter-hub:0.1.0
-   docker tag home-assistant-matter-hub:0.1.0 waynebook/home-assistant-matter-hub:latest
-   ```
-
-4. **Push to Docker Hub**
-   ```bash
-   docker push waynebook/home-assistant-matter-hub:0.1.0
-   docker push waynebook/home-assistant-matter-hub:latest
-   ```
-
-5. **Verify**
-   - Visit: https://hub.docker.com/r/waynebook/home-assistant-matter-hub
-
-### Option B: GitHub Container Registry (GHCR)
+### GitHub Container Registry (GHCR)
 
 Good if your project is on GitHub (which it is!).
 
@@ -269,19 +229,6 @@ docker run -it ghcr.io/waynebook/home-assistant-matter-hub:latest --help
 ---
 
 ## Step 6: Home Assistant Addon Setup
-
-### For Standalone Container (Non-Addon)
-
-Users can run directly:
-```bash
-docker run -d \
-  --name hamh \
-  -p 8482:8482 \
-  -v /path/to/data:/data \
-  -e HAMH_HOME_ASSISTANT_URL="http://homeassistant:8123" \
-  -e HAMH_HOME_ASSISTANT_ACCESS_TOKEN="token" \
-  waynebook/home-assistant-matter-hub:latest
-```
 
 ### For Home Assistant Addon Repository
 
